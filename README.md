@@ -1,4 +1,4 @@
-# PERN DBMS Backend API
+# EduSnap DBMS API
 
 A production-quality backend for a DBMS course project: Node.js + Express +
 PostgreSQL, using **raw SQL only** via the `pg` package. No ORM, no query
@@ -76,12 +76,11 @@ backend/
 ## Installation
 
 ```bash
-git clone <this-repo>
-cd backend
+git clone https://github.com/Raihan-Naieem/EduSnap-DBMS-api
 npm install
 ```
 
----
+--- 
 
 ## Environment Variables
 
@@ -97,8 +96,8 @@ PORT=3000
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=my_database
-DB_USER=postgres
-DB_PASSWORD=your_password_here
+DB_USER=your_username
+DB_PASSWORD=your_password
 
 NODE_ENV=development
 ```
@@ -115,10 +114,10 @@ automatically by the Node app.
 createdb my_database
 
 # 2. Apply the schema (tables, constraints, indexes, view, trigger)
-psql -U postgres -d my_database -f database/schema.sql
+psql -U your-username -d my_database -f database/schema.sql
 
 # 3. (Optional) Load sample data so you have something to query immediately
-psql -U postgres -d my_database -f database/seed.sql
+psql -U your-username -d my_database -f database/seed.sql
 ```
 
 `schema.sql` is safe to re-run — it starts with `DROP TABLE IF EXISTS ...`
@@ -502,6 +501,6 @@ Content-Type: application/json
 - `password_hash` is never selected in any general-purpose query — only
   `findByEmailWithHash` exposes it, for future login/auth work.
 - Controllers contain zero SQL and zero business rules — only request
-  parsing and response shaping.
+  parsing and response shaping. 
 - Services contain zero SQL — only orchestration, validation, and (where
   needed) transactions via `getClient()`.
