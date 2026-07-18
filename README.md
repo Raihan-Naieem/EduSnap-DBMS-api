@@ -103,6 +103,61 @@ NODE_ENV=development
 ```
 
 ---
+## Creating a PostgreSQL User
+
+Before running the setup steps below, you need a Postgres role (user) with
+login privileges and a password — this is what `DB_USER` / `DB_PASSWORD` in
+your `.env` will point to.
+
+### Create a dedicated user for this project 
+
+Rather than using the superuser, create a scoped role that only has access
+to this project's database:
+
+```bash
+sudo -u postgres psql
+```
+
+```sql
+-- Create the role with a password and login rights
+CREATE USER your_username WITH PASSWORD 'your_password_here';
+
+-- Create the database (or skip if you already ran `createdb`)
+CREATE DATABASE my_database;
+
+-- Give the new user full rights on that database
+GRANT ALL PRIVILEGES ON DATABASE my_database TO your_username;
+
+-- Postgres 15+ additionally requires schema-level grants:
+\c my_database
+GRANT ALL ON SCHEMA public TO your_username;
+```
+
+Then in `.env`:
+```
+DB_USER=your_username
+DB_PASSWORD=your_password
+DB_NAME=my_database
+```
+
+### Verify it works
+
+Test the credentials directly with `psql` before touching the Node app:
+
+```bash
+psql -U your_username -h localhost -d my_database
+```
+
+If this connects without a password prompt failing, `.env` should work too.
+If it still fails, check `pg_hba.conf`'s authentication method for local
+TCP connections (commonly `/etc/postgresql/<version>/main/pg_hba.conf` on
+Linux) — the line for `host ... 127.0.0.1/32` should say `md5` or
+`scram-sha-256`, not `peer` or `trust`. Restart Postgres after any change:
+
+```bash
+sudo systemctl restart postgresql
+```
+---
 
 ## Database Setup
 
