@@ -11,7 +11,7 @@
  * =============================================================================
  */
 require('dotenv').config();
-npm install cors
+const cors = require('cors');
 const app = require('./app');
 
 const PORT = process.env.PORT || 3000;
