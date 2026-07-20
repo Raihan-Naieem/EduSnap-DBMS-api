@@ -80,12 +80,15 @@ CREATE INDEX idx_teacher_admin_id ON Teacher(admin_id);
 -- =============================================================================
 -- Course
 -- =============================================================================
+DROP TABLE IF EXISTS Course;
+
 CREATE TABLE Course (
     course_id   SERIAL PRIMARY KEY,
     title       VARCHAR(200) NOT NULL,
     description TEXT,
     price       NUMERIC(10, 2) NOT NULL CHECK (price >= 0),
-    admin_id    INTEGER NOT NULL REFERENCES Admin(admin_id)
+    image       VARCHAR(500),
+    admin_id    INTEGER NOT NULL REFERENCES Admin(admin_id),
 );
 
 CREATE INDEX idx_course_admin_id ON Course(admin_id);

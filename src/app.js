@@ -12,11 +12,13 @@
  * =============================================================================
  */
 const express = require('express');
+const cors = require('cors');
 const apiRoutes = require('./routes');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
-
+// 2. Allow all origins to talk to your API
+app.use(cors());
 app.use(express.json());
 
 app.use('/api', apiRoutes);
