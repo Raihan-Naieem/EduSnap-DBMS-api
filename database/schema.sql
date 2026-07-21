@@ -87,8 +87,7 @@ CREATE TABLE Course (
     title       VARCHAR(200) NOT NULL,
     description TEXT,
     price       NUMERIC(10, 2) NOT NULL CHECK (price >= 0),
-    image       VARCHAR(500),
-    admin_id    INTEGER NOT NULL REFERENCES Admin(admin_id),
+    admin_id    INTEGER NOT NULL REFERENCES Admin(admin_id)
 );
 
 CREATE INDEX idx_course_admin_id ON Course(admin_id);
